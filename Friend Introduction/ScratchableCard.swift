@@ -10,23 +10,23 @@ import SwiftUI
 struct ScratchableCard: View {
     @State private var fadePoints: [FadePoint] = []
 
-    let text: String = "INTJ"
+    let text: String
     let fadeDuration: TimeInterval = 0.25
     let radius: CGFloat = 20
-    let width: CGFloat = 175
-    let height: CGFloat = 100
+    let height: CGFloat = 75
 
     @State private var revealed: Bool = false
     @State private var dragOffset = CGSize.zero
 
-    let color: Color = .blue
+    let color: Color
 
     var body: some View {
         ZStack {
             // Cover layer
             RoundedRectangle(cornerRadius: 20)
-                .fill(Color(red: 220 / 255, green: 220 / 255, blue: 220 / 255))
-                .frame(width: width, height: height)
+                .fill(Color(red: 102 / 255, green: 189 / 255, blue: 229 / 255))
+                .opacity(0.3)
+                .frame(width: .infinity, height: height)
 
             // Base Layer
             ZStack {
@@ -34,16 +34,12 @@ struct ScratchableCard: View {
                     .fill(color)
 
                 Text(text)
-                    .font(.title)
+                    .font(.title3)
                     .fontWeight(.bold)
             }
-            .frame(width: width, height: height)
+            .frame(width: .infinity, height: height)
             .mask( // Show the Actual Contente in the Drawn Path
                 Group {
-                    // Checking Revealed
-                    if revealed {
-                        Rectangle()
-                    } else {
                         // Enables to Draw Shapes on the Path
                         Canvas { context, size in
                             for (ix, point) in fadePoints.enumerated() {
@@ -76,7 +72,6 @@ struct ScratchableCard: View {
                                 )
                             }
                         }
-                    }
                 }
             )
             .gesture(
@@ -90,25 +85,10 @@ struct ScratchableCard: View {
                             )
                         )
                         
-                        // Trigger the Checking Asynchronously
-                        DispatchQueue.main.async {
-                            checkRevealProgress()
-                        }
                     })
             )
         }
     }
-
-    // Reveal the Whole Card
-    func checkRevealProgress() {
-        let scratchedArea = CGFloat(fadePoints.count) * .pi * radius * radius
-        let totalArea = width * height
-        let progress = scratchedArea / totalArea
-        if progress > 20 {
-            revealed = true
-        }
-    }
-
 }
 
 struct FadePoint: Identifiable {
@@ -118,5 +98,6 @@ struct FadePoint: Identifiable {
 }
 
 #Preview {
-    ScratchableCard()
+    ScratchableCard(text: "INFJ", color: .blue)
+        .padding(20)
 }
