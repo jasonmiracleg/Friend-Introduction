@@ -38,7 +38,7 @@ struct ScratchableCard: View {
                     .fontWeight(.bold)
             }
             .frame(width: .infinity, height: height)
-            .mask( // Show the Actual Contente in the Drawn Path
+            .mask( // Show the Actual Content in the Drawn Path
                 Group {
                         // Enables to Draw Shapes on the Path
                         Canvas { context, size in
@@ -59,8 +59,8 @@ struct ScratchableCard: View {
                                         ellipseIn: CGRect(
                                             x: point.location.x - radius,
                                             y: point.location.y - radius,
-                                            width: radius * 3,
-                                            height: radius * 3
+                                            width: radius * 2,
+                                            height: radius * 2
                                         )
                                     ),
                                     with: .radialGradient(

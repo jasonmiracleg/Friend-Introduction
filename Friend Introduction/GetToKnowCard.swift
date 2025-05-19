@@ -11,6 +11,7 @@ struct GetToKnowCard: View {
     var title: String
     var content: String
     let durationAndDelay: CGFloat = 0.5
+    var onSwiped: (() -> Void)? = nil
     @State private var offset = CGSize.zero
     @State private var color: Color = .blue
     @State var backDegree = 90.0
@@ -19,8 +20,9 @@ struct GetToKnowCard: View {
 
     var body: some View {
         ZStack {
-            frontCard(color: color, title: title, degree: $frontDegree)
-            backCard(color: color, content: content, degree: $backDegree)
+            Card(color: color, content: title,  font: .title, degree: $frontDegree)
+            Card(color: color, content: content, font: .body, degree: $backDegree)
+                .padding(.horizontal, 20)
         }
         .offset(x: offset.width, y: offset.height * 0.2)
         .rotationEffect(.degrees(Double(offset.width / 60)))
@@ -48,8 +50,10 @@ struct GetToKnowCard: View {
         switch width {
         case -500...(-150):
             offset = CGSize(width: -500, height: 0)
+            onSwiped?()
         case 150...500:
             offset = CGSize(width: 500, height: 0)
+            onSwiped?()
         default:
             offset = .zero
         }
@@ -88,37 +92,12 @@ struct GetToKnowCard: View {
             }
         }
     }
-
 }
 
-struct frontCard: View {
-    let color: Color
-    let title: String
-
-    @Binding var degree: Double
-
-    var body: some View {
-        ZStack {
-            Rectangle()
-                .frame(width: 300, height: 500)
-                .border(.white, width: 6.0)
-                .cornerRadius(4)
-                .foregroundColor(color)
-                .shadow(radius: 4)
-            HStack {
-                Text(title)
-                    .font(.largeTitle)
-                    .foregroundColor(.white)
-                    .bold()
-            }
-        }
-        .rotation3DEffect(Angle(degrees: degree), axis: (x: 0, y: 1, z: 0))
-    }
-}
-
-struct backCard: View {
+struct Card: View {
     let color: Color
     let content: String
+    let font: Font
 
     @Binding var degree: Double
 
@@ -131,10 +110,14 @@ struct backCard: View {
                 .foregroundColor(color)
                 .shadow(radius: 4)
             HStack {
+                Spacer()
                 Text(content)
-                    .font(.largeTitle)
+                    .font(font)
                     .foregroundColor(.white)
                     .bold()
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 64)
+                Spacer()
             }
         }
         .rotation3DEffect(Angle(degrees: degree), axis: (x: 0, y: 1, z: 0))
