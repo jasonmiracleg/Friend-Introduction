@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var justifiedTextHeight: CGFloat = .zero
+    @State private var navigate = false
+    
     let colors: [ColorPallete] = [
         ColorPallete(
             colorName: "Favorite Color",
@@ -41,29 +43,39 @@ struct ContentView: View {
     ]
 
     var body: some View {
-        GeometryReader { geometry in
-            ScrollView {
-                VStack(spacing: 8) {
-                    ZStack(alignment: .bottom) {
-                        Image(.theo)
-                            .frame(maxWidth: geometry.size.width)
-                        Button(action: {}) {
-                            Label("Get to Know Theo", systemImage: "arrow.up")
+        NavigationStack {
+            GeometryReader { geometry in
+                ScrollView {
+                    VStack(spacing: 8) {
+                        ZStack(alignment: .bottom) {
+                            Image(.theo)
+                                .frame(maxWidth: geometry.size.width)
+                            VStack {
+                                Button(action: {
+                                    navigate = true
+                                }) {
+                                    Label("Get to Know Theo", systemImage: "")
+                                }
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(
+                                    Color(
+                                        red: colors[0].rgbValue.red,
+                                        green: colors[0].rgbValue.green,
+                                        blue: colors[0].rgbValue.blue
+                                    )
+                                )
+                                .foregroundColor(.black)
+                                .cornerRadius(8)
+                                .padding(.horizontal, 16)
+                                .padding(.bottom)
+                                .navigationDestination(isPresented: $navigate){
+                                    SwipeCard()
+                                }
+                                .navigationTitle("Profile")
+                                .navigationBarHidden(true)
+                            }
                         }
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(
-                            Color(
-                                red: colors[0].rgbValue.red,
-                                green: colors[0].rgbValue.green,
-                                blue: colors[0].rgbValue.blue
-                            )
-                        )
-                        .foregroundColor(.black)
-                        .cornerRadius(8)
-                        .padding(.horizontal, 16)
-                        .padding(.bottom)
-                    }
                         Group {
                             Group {
                                 Text("Theodore Michael Budiono • 22")
@@ -150,10 +162,11 @@ struct ContentView: View {
                         }
                         .padding(.trailing, 24)
                         .padding(.leading, 24)
+                    }
+                    .padding(.bottom, 32)
                 }
-                .padding(.bottom, 32)
+                .ignoresSafeArea(.all)
             }
-            .ignoresSafeArea(.all)
         }
     }
 }
