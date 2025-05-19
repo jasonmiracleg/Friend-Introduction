@@ -7,15 +7,22 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct ProfileView: View {
     @State private var justifiedTextHeight: CGFloat = .zero
     @State private var navigate = false
-    
+
     let colors: [ColorPallete] = [
         ColorPallete(
             colorName: "Favorite Color",
             rgbValue: (red: 102 / 255, green: 189 / 255, blue: 229 / 255)
         )
+    ]
+
+    let descriptionText: String =
+        "Theo is a final-year Visual Communication Design student with a decade of creative experience, especially with his longtime companion—Adobe. Outside the screen, he thrives on motion, often found cycling or running, even once conquering a 150km ride. At just his age, he’s already founded his own photography agency, joined the Apple Developer Academy 2025, and built a personal collection of camera gear. Design, speed, and vision—Theo lives at the intersection of all three."
+
+    let columns = [
+        GridItem(.adaptive(minimum: 80), spacing: 12)
     ]
 
     let personalityColumn = [
@@ -31,15 +38,13 @@ struct ContentView: View {
     ]
 
     let interestBadges = [
-        Badge(title: "Design", iconName: "paintbrush.pointed.fill"),
-        Badge(title: "Sport", iconName: "figure.badminton"),
-        Badge(title: "Technology", iconName: "laptopcomputer"),
-    ]
-
-    let hobbyBadges = [
-        Badge(title: "Running", iconName: "figure.run"),
+        Badge(title: "Badminton", iconName: "figure.badminton"),
         Badge(title: "Cycling", iconName: "figure.outdoor.cycle"),
-        Badge(title: "Sleeping", iconName: "bed.double.fill"),
+        Badge(title: "Running", iconName: "figure.run"),
+        Badge(title: "Design", iconName: "paintbrush.pointed.fill"),
+        Badge(title: "Photography", iconName: "camera.fill"),
+        Badge(title: "Technology", iconName: "laptopcomputer"),
+
     ]
 
     var body: some View {
@@ -49,7 +54,13 @@ struct ContentView: View {
                     VStack(spacing: 8) {
                         ZStack(alignment: .bottom) {
                             Image(.theo)
-                                .frame(maxWidth: geometry.size.width)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(
+                                    maxWidth: geometry.size.width,
+                                    maxHeight: geometry.size.height * 0.5
+                                )
+                                .clipped()
                             VStack {
                                 Button(action: {
                                     navigate = true
@@ -69,8 +80,8 @@ struct ContentView: View {
                                 .cornerRadius(8)
                                 .padding(.horizontal, 16)
                                 .padding(.bottom)
-                                .navigationDestination(isPresented: $navigate){
-                                    SwipeCard()
+                                .navigationDestination(isPresented: $navigate) {
+                                    SwipeCardView()
                                 }
                                 .navigationTitle("Profile")
                                 .navigationBarHidden(true)
@@ -79,22 +90,31 @@ struct ContentView: View {
                         Group {
                             Group {
                                 Text("Theodore Michael Budiono • 22")
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .frame(
+                                        maxWidth: .infinity,
+                                        alignment: .leading
+                                    )
                                     .font(.largeTitle)
                                     .fontWeight(.bold)
                                     .padding(.top, 24)
                                 Text("Theo, The, O - Surabaya")
                                     .font(.headline)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .frame(
+                                        maxWidth: .infinity,
+                                        alignment: .leading
+                                    )
                                     .padding(.bottom, 16)
                             }
                             Group {
                                 Text("About")
                                     .font(.title)
                                     .fontWeight(.bold)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .frame(
+                                        maxWidth: .infinity,
+                                        alignment: .leading
+                                    )
                                 Text(
-                                    "Theo is a final-year Visual Communication Design student with a decade of creative experience, especially with his longtime companion—Adobe. Outside the screen, he thrives on motion, often found cycling or running, even once conquering a 150km ride. At just his age, he’s already founded his own photography agency, joined the Apple Developer Academy 2025, and built a personal collection of camera gear. Design, speed, and vision—Theo lives at the intersection of all three."
+                                    descriptionText
                                 )
                                 .padding(.bottom, 16)
                             }
@@ -102,52 +122,30 @@ struct ContentView: View {
                                 Text("Interests")
                                     .font(.title)
                                     .fontWeight(.bold)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                HStack {
+                                    .frame(
+                                        maxWidth: .infinity,
+                                        alignment: .leading
+                                    )
+                                LazyVGrid(columns: columns, alignment: .leading)
+                                {
                                     ForEach(
                                         Array(interestBadges.enumerated()),
                                         id: \.1.id
                                     ) { index, badge in
                                         HStack {
-                                            VStack(spacing: 8) {
-                                                Image(systemName: badge.iconName)
-                                                    .font(.system(size: 32))
-                                                    .padding(12)
-                                                    .clipShape(Circle())
+                                            VStack {
+                                                Image(
+                                                    systemName: badge.iconName
+                                                )
+                                                .font(.system(size: 32))
+                                                .padding(8)
+                                                .clipShape(Circle())
+                                                Spacer()
                                                 Text(badge.title)
                                                     .font(.callout)
                                             }
-                                            if index < 2 {
-                                                Spacer()
-                                            }
                                         }
-                                    }
-                                }
-                                .padding(.bottom, 16)
-                            }
-                            Group {
-                                Text("Hobbies")
-                                    .font(.title)
-                                    .fontWeight(.bold)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                HStack {
-                                    ForEach(
-                                        Array(hobbyBadges.enumerated()),
-                                        id: \.1.id
-                                    ) { index, badge in
-                                        HStack {
-                                            VStack(spacing: 8) {
-                                                Image(systemName: badge.iconName)
-                                                    .font(.system(size: 32))
-                                                    .padding(12)
-                                                    .clipShape(Circle())
-                                                Text(badge.title)
-                                                    .font(.callout)
-                                            }
-                                            if index < 2 {
-                                                Spacer()
-                                            }
-                                        }
+                                        .frame(width: 100)
                                     }
                                 }
                                 .padding(.bottom, 16)
@@ -156,7 +154,16 @@ struct ContentView: View {
                                 Text("Personality Traits")
                                     .font(.title)
                                     .fontWeight(.bold)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .frame(
+                                        maxWidth: .infinity,
+                                        alignment: .leading
+                                    )
+                                Text(
+                                    "Scratch the Card to Reveal His Personalities"
+                                )
+                                .font(.caption)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.bottom, 4)
                                 PersonalityCards()
                             }
                         }
@@ -172,5 +179,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    ProfileView()
 }

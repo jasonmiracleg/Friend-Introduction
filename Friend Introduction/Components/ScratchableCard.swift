@@ -26,7 +26,7 @@ struct ScratchableCard: View {
             RoundedRectangle(cornerRadius: 20)
                 .fill(Color(red: 102 / 255, green: 189 / 255, blue: 229 / 255))
                 .opacity(0.3)
-                .frame(width: .infinity, height: height)
+                .frame(maxWidth: .infinity, maxHeight: height)
 
             // Base Layer
             ZStack {
@@ -37,7 +37,7 @@ struct ScratchableCard: View {
                     .font(.title3)
                     .fontWeight(.bold)
             }
-            .frame(width: .infinity, height: height)
+            .frame(maxWidth: .infinity, minHeight: height)
             .mask( // Show the Actual Content in the Drawn Path
                 Group {
                         // Enables to Draw Shapes on the Path

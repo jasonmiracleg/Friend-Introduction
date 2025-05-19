@@ -11,7 +11,7 @@ import SwiftUI
 struct Friend_IntroductionApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ProfileView()
         }
     }
 }

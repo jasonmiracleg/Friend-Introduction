@@ -30,11 +30,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		6A3A80B02DCB07B4002C813D /* Friend Introduction */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Friend Introduction";
-			sourceTree = "<group>";
-		};
 		6A3A80BE2DCB07B6002C813D /* Friend IntroductionTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "Friend IntroductionTests";
@@ -43,6 +38,11 @@
 		6A3A80C82DCB07B6002C813D /* Friend IntroductionUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "Friend IntroductionUITests";
+			sourceTree = "<group>";
+		};
+		6A4241752DDB4D43008B936A /* Friend Introduction */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Friend Introduction";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -75,7 +75,7 @@
 		6A3A80A52DCB07B4002C813D = {
 			isa = PBXGroup;
 			children = (
-				6A3A80B02DCB07B4002C813D /* Friend Introduction */,
+				6A4241752DDB4D43008B936A /* Friend Introduction */,
 				6A3A80BE2DCB07B6002C813D /* Friend IntroductionTests */,
 				6A3A80C82DCB07B6002C813D /* Friend IntroductionUITests */,
 				6A3A80AF2DCB07B4002C813D /* Products */,
@@ -108,7 +108,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				6A3A80B02DCB07B4002C813D /* Friend Introduction */,
+				6A4241752DDB4D43008B936A /* Friend Introduction */,
 			);
 			name = "Friend Introduction";
 			packageProductDependencies = (
