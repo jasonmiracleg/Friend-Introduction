@@ -102,5 +102,5 @@ struct SwipeCardView: View {
 }
 
 #Preview {
-    SwipeCard()
+    SwipeCardView()
 }
